@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class itemSpawn : MonoBehaviour
 {
+    public static itemSpawn instance;
+
     public GameObject[] aisleOne; //fruits
     public GameObject[] aisleTwo;
     public GameObject[] aisleThree;
     public GameObject[] aisleFour;
+    public GameObject[] aisleFive;
+    public GameObject[] aisleSix;
+    public GameObject[] aisleSeven;
+    public GameObject[] aisleEight;
+    public GameObject[] aisleNine;
+    public GameObject[] aisleTen;
+    public GameObject[] aisleEleven;
+    public GameObject[] aisleTwelve;
+
+
     public GameObject[][] shelves = new GameObject[4][];
 
     public GameObject grocery1;
@@ -22,6 +34,7 @@ public class itemSpawn : MonoBehaviour
     public int numGroceries = 1;
     void Start()
     {
+        instance = this;
         shelves[0] = aisleOne;
         shelves[1] = aisleTwo;
         shelves[2] = aisleThree;
@@ -36,8 +49,9 @@ public class itemSpawn : MonoBehaviour
         {
             for (int i = 0; i < numGroceries; i++)
             {
-                int shelfNumber = Random.Range(0, shelves[aisleNumber].Length - 1);
+                int shelfNumber = Random.Range(0, shelves[aisleNumber].Length);
                 Instantiate(spawnObject, shelves[aisleNumber][shelfNumber].transform.position, spawnObject.transform.rotation);
+                print("Grocery Spawned");
             }
             spawnGroceries = false;
         }

@@ -9,11 +9,14 @@ public class npcSpawn : MonoBehaviour
     public int spawnCount = 0;
     public int spawnDelay = 0;
     public bool spawning = true;
+
+    public Sprite[] npcHeads;
+
     public GameObject npc;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -28,6 +31,7 @@ public class npcSpawn : MonoBehaviour
                 if (GameObject.Find("npcBlue(Clone)") == false)
                 {
                     Instantiate(npc, transform.position, new Quaternion(0, 0, 0, 0));
+                    gameObject.GetComponent<AudioSource>().Play();
                     spawnCounter = 0;
                 }
                 else

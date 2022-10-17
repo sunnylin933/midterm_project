@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class playerInteractions : MonoBehaviour
 {
+    public static playerInteractions instance;
+
     public bool holdingGrocery;
     public int groceryGoal = 1;
     private int groceryObtained;
@@ -15,8 +17,11 @@ public class playerInteractions : MonoBehaviour
 
     public GameObject npc;
     public bool npcSatisfied;
+
+    public AudioSource cashRegisterSFX;
     void Start()
     {
+        instance = this;
         holdingGrocery = false;
         groceryObtained = 1;
         npcSatisfied = false;
@@ -46,6 +51,7 @@ public class playerInteractions : MonoBehaviour
 
         if (collision.tag == "Checkout" && holdingGrocery)
         {
+            cashRegisterSFX.Play();
             holdingGrocery = false;
             groceryObtained++;
             npcSatisfied = true;
