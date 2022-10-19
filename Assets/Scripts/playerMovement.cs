@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class playerMovement : MonoBehaviour
 {
+    public static playerMovement instance;
     public Animator bodyAnimator;
 
     public bool canMove;
@@ -21,6 +22,7 @@ public class playerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        instance = this;
         canMove = true;
         boxCollider = GetComponent<BoxCollider2D>();
         raycastLayers = new string[] { "Blocking", "Actor" };

@@ -19,7 +19,6 @@ public class holdItem : MonoBehaviour
         if(playerInteractions.instance.holdingGrocery)
         {
             this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            print("Holding");
         }
         else
         {

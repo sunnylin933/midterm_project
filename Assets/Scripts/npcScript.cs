@@ -20,6 +20,7 @@ public class npcScript : MonoBehaviour
     public bool spawnGroceries;
     public float walkCounter;
 
+    private bool conditionIssued;
     private float patience;
     private float patienceTimer;
 
@@ -38,7 +39,12 @@ public class npcScript : MonoBehaviour
         walkCounter = 0;
         npcState = 0;
         patienceTimer = 0;
-        patience = 5f;
+        patience = 60f - gameManager.currentDay*5f;
+        if(patience < 35f)
+        {
+            patience = 35f;
+        }
+        conditionIssued = false;
 
 
         Animator[] allAnimators = GetComponentsInChildren<Animator>();
@@ -66,7 +72,6 @@ public class npcScript : MonoBehaviour
 
     void Update()
     {
-
         switch(npcState)
         {
             case 0: //Entering the Room
@@ -102,16 +107,76 @@ public class npcScript : MonoBehaviour
                 switch (desiredGrocery)
                 {
                     case 0:
-                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery1;
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery0;
                         break;
                     case 1:
-                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery2;
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery1;
                         break;
                     case 2:
-                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery3;
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery2;
                         break;
                     case 3:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery3;
+                        break;
+                    case 4:
                         spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery4;
+                        break;
+                    case 5:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery5;
+                        break;
+                    case 6:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery6;
+                        break;
+                    case 7:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery7;
+                        break;
+                    case 8:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery8;
+                        break;
+                    case 9:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery9;
+                        break;
+                    case 10:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery10;
+                        break;
+                    case 11:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery11;
+                        break;
+                    case 12:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery12;
+                        break;
+                    case 13:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery13;
+                        break;
+                    case 14:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery14;
+                        break;
+                    case 15:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery15;
+                        break;
+                    case 16:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery16;
+                        break;
+                    case 17:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery17;
+                        break;
+                    case 18:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery18;
+                        break;
+                    case 19:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery19;
+                        break;
+                    case 20:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery20;
+                        break;
+                    case 21:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery21;
+                        break;
+                    case 22:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery22;
+                        break;
+                    case 23:
+                        spawner.GetComponent<itemSpawn>().spawnObject = spawner.GetComponent<itemSpawn>().grocery23;
                         break;
                     default:
                         break;
@@ -126,7 +191,7 @@ public class npcScript : MonoBehaviour
 
             case 2:
                 patienceTimer += Time.deltaTime;
-                if(patienceTimer > patience)
+                if(patienceTimer > patience && !conditionIssued)
                 {
 
                     textBubble.instance.iconSpriteRenderer.sprite = textBubble.instance.angry;
@@ -143,12 +208,22 @@ public class npcScript : MonoBehaviour
                         audioSource.PlayOneShot(textBubble.instance.angrySFX);
                     }
                     playerInteractions.instance.holdingGrocery = false;
+                    if(!conditionIssued)
+                    {
+                        gameManager.instance.customersAngered++;
+                        conditionIssued = true;
+                    }
                     StartCoroutine(delayStart());
                 }
 
                 if (player.GetComponent<playerInteractions>().npcSatisfied)
                 {
                     textBubble.instance.iconSpriteRenderer.sprite = textBubble.instance.happy;
+                    if(!conditionIssued)
+                    {
+                        gameManager.instance.customersSatisfied++;
+                        conditionIssued = true;
+                    }
                     StartCoroutine(delayStart());
                 }
                 break;
@@ -170,8 +245,10 @@ public class npcScript : MonoBehaviour
     private IEnumerator delayStart()
     {
         yield return new WaitForSeconds(1);
-        print("NPC leaving");
-        npcState++;
+        if(npcState == 2)
+        {
+            npcState++;
+        }
     }
 
     private IEnumerator deleteNPC()

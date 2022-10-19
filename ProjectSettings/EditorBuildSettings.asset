@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Survived.unity
+    guid: ca813a5dc52209045a5b167e76c86706
+  - enabled: 1
+    path: Assets/Scenes/Failed.unity
+    guid: 0568290fe57824f469215100c2c0fa89
   m_configObjects: {}

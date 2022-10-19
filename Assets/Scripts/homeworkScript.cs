@@ -11,7 +11,7 @@ public class homeworkScript : MonoBehaviour
     private int currentSprite;
     private SpriteRenderer sprite;
     private float homeworkCounter;
-    public float homeworkThreshold;
+    public static float homeworkThreshold = 15f;
 
     public AudioSource writingSFX;
 
@@ -29,13 +29,13 @@ public class homeworkScript : MonoBehaviour
     {
         if(sprite.sprite == sprites[4])
         {
+            gameManager.instance.homeworkComplete = true;
             finishedHomework = true;
         }
 
         if (!finishedHomework && working)
         {
             homeworkCounter += Time.deltaTime;
-            print(homeworkCounter);
             if (homeworkCounter > homeworkThreshold)
             {
                 currentSprite++;
@@ -47,8 +47,11 @@ public class homeworkScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        writingSFX.Play();
-        working = true;
+        if(!finishedHomework && !playerInteractions.instance.holdingGrocery)
+        {
+            writingSFX.Play();
+            working = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

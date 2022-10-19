@@ -18,6 +18,7 @@ public class playerInteractions : MonoBehaviour
     public GameObject npc;
     public bool npcSatisfied;
 
+    public AudioSource itemSFX;
     public AudioSource cashRegisterSFX;
     void Start()
     {
@@ -44,8 +45,9 @@ public class playerInteractions : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Grocery")
+        if (collision.tag == "Grocery" && !holdingGrocery)
         {
+            itemSFX.Play();
             holdingGrocery = true;
         }
 
